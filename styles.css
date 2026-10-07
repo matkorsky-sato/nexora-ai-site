@@ -155,6 +155,11 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 9000; pointer-
 .manifesto-signal-left { left: 0; transform: translateY(-50%); }
 .manifesto-signal-right { right: 0; transform: translateY(-50%) scaleX(-1); }
 .manifesto-signal .signal-line { fill: none; stroke: var(--gold); stroke-width: 1; stroke-opacity: .48; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.manifesto-signal .signal-pulse { fill: none; stroke: #ff304e; stroke-width: 1.8; stroke-linecap: round; stroke-opacity: .94; stroke-dasharray: .065 .935; stroke-dashoffset: 0; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 3px rgba(255,36,68,.78)); animation: manifesto-signal-travel 7s linear infinite; }
+.manifesto-signal .signal-pulse-2 { animation-delay: -1.6s; }
+.manifesto-signal .signal-pulse-3 { animation-delay: -3.2s; }
+.manifesto-signal .signal-pulse-4 { animation-delay: -4.8s; }
+@keyframes manifesto-signal-travel { to { stroke-dashoffset: -1; } }
 .manifesto-signal .signal-cross { stroke: var(--rasp); stroke-opacity: .3; }
 .manifesto-signal .signal-node { fill: var(--bg); stroke: var(--gold); stroke-width: 1.5; vector-effect: non-scaling-stroke; opacity: .85; }
 .manifesto-signal circle.signal-node { fill: var(--rasp); stroke: none; }
@@ -578,6 +583,7 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 9000; pointer-
 
 /* rails: soft fading tails (opacity comes from their own gradient, same peak as the other rails) */
 .manifesto-signal .signal-ext { fill: none; stroke-width: 1; vector-effect: non-scaling-stroke; }
+@media (prefers-reduced-motion: reduce) { .manifesto-signal .signal-pulse { animation: none; stroke-dasharray: none; stroke-opacity: .62; filter: none; } }
 
 /* results ornament: Segmented '%' in the raspberry of the numbers */
 .results-ornament { font-family: var(--f-seg); color: var(--rasp); opacity: .8; transform: none; font-size: clamp(90px, 11vw, 170px); }
