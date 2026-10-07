@@ -156,10 +156,18 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 9000; pointer-
 .manifesto-signal-right { right: 0; transform: translateY(-50%) scaleX(-1); }
 .manifesto-signal .signal-line { fill: none; stroke: var(--gold); stroke-width: 1; stroke-opacity: .48; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .manifesto-signal .signal-cross { stroke: var(--rasp); stroke-opacity: .3; }
+.manifesto-signal .signal-pulse { fill: none; stroke: #fff1c2; stroke-width: 2.4; stroke-opacity: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: .12 .88; stroke-dashoffset: 1; filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 10px rgba(201,164,92,.76)); animation: signal-current 3.2s linear infinite; }
+.manifesto-signal .signal-pulse.signal-cross { stroke: #ffd4df; filter: drop-shadow(0 0 4px var(--rasp)) drop-shadow(0 0 10px rgba(255,61,127,.72)); }
+.manifesto-signal .signal-pulse:nth-of-type(4) { animation-delay: -.4s; }
+.manifesto-signal .signal-pulse:nth-of-type(6) { animation-delay: -1.5s; }
+.manifesto-signal .signal-pulse:nth-of-type(8) { animation-delay: -2.4s; }
+.manifesto-signal .signal-pulse:nth-of-type(10) { animation-delay: -1s; }
+@keyframes signal-current { to { stroke-dashoffset: 0; } }
 .manifesto-signal .signal-node { fill: var(--bg); stroke: var(--gold); stroke-width: 1.5; vector-effect: non-scaling-stroke; opacity: .85; }
 .manifesto-signal circle.signal-node { fill: var(--rasp); stroke: none; }
 @media (max-width: 999px) { .manifesto-signal { width: 24vw; opacity: .45; } .manifesto-text { max-width: 18em; } }
-@media (max-width: 599px) { .manifesto { padding-block: 126px; } .manifesto-signal { width: 19vw; opacity: .3; } .manifesto-note { margin-top: 38px; } }
+@media (max-width: 599px) { .manifesto { padding-block: 126px; } .manifesto-signal { width: clamp(104px, 31vw, 150px); opacity: .58; } .manifesto-note { margin-top: 38px; } }
+@media (prefers-reduced-motion: reduce) { .manifesto-signal .signal-pulse { display: none; } }
 
 /* ---------- constellation (services) ---------- */
 .field { position: relative; }
