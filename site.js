@@ -1,4 +1,4 @@
-/* NEXORA v5 — interaction layer. body[data-page] = home | service | contact.
+﻿/* NEXORA v5 — interaction layer. body[data-page] = home | service | contact.
    0 chrome · 1 sound · 2 glitch · 3 scroll/menu · 4 cursor · 5 reveals (words, diamond-nodes) · 6 header · 7 pages.
    Everything degrades: no GSAP → static, fully readable page; no motion → constellation becomes a plain list. */
 (() => {
@@ -10,8 +10,42 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const page = document.body.dataset.page;
+  /* The wordmark's glyph widths may change when its font arrives. Fit the
+     actual text, rather than assuming a vw size always fits every window. */
+  const wordmarks = $$('.hero-brand, .footer-word');
+  let wordmarkFrame = 0;
+  function fitWordmarks() {
+    wordmarkFrame = 0;
+    wordmarks.forEach(el => {
+      el.style.removeProperty('font-size');
+      const parent = el.parentElement;
+      const parentStyle = getComputedStyle(parent);
+      const gutterSource = el.classList.contains('hero-brand') ? $('.hero-body') : parent;
+      const gutterStyle = getComputedStyle(gutterSource || parent);
+      const gutters = (parseFloat(gutterStyle.paddingLeft) || 0) + (parseFloat(gutterStyle.paddingRight) || 0);
+      const available = Math.max(1, Math.min(document.documentElement.clientWidth, parent.clientWidth) - Math.max(gutters, (parseFloat(parentStyle.paddingLeft) || 0) + (parseFloat(parentStyle.paddingRight) || 0)) - 8);
+      const width = el.scrollWidth;
+      const size = parseFloat(getComputedStyle(el).fontSize);
+      if (width > available && size > 0) el.style.fontSize = `${size * available / width}px`;
+    });
+  }
+  function scheduleWordmarkFit() {
+    if (!wordmarkFrame) wordmarkFrame = requestAnimationFrame(fitWordmarks);
+  }
+  scheduleWordmarkFit();
+  window.addEventListener('resize', scheduleWordmarkFit, { passive: true });
+  if (document.fonts) {
+    document.fonts.ready.then(scheduleWordmarkFit);
+    document.fonts.addEventListener('loadingdone', scheduleWordmarkFit);
+  }
+  if (window.ResizeObserver) {
+    const wordmarkObserver = new ResizeObserver(scheduleWordmarkFit);
+    [...new Set(wordmarks.map(el => el.parentElement))].forEach(el => wordmarkObserver.observe(el));
+  }
   const gsapOK = !!(window.gsap && window.ScrollTrigger);
-  const svcLink = s => `service.html?s=${s.slug}`;
+  const currentServices = [{"slug":"sales-automation","name":"Автоматизация набора","tag":"Сайт, бот, запись и учёт заявок для образовательных центров."},{"slug":"websites","name":"Сайты и лендинги","tag":"Понятное предложение, ответы на вопросы и путь к заявке."},{"slug":"chatbots","name":"Чат-боты","tag":"Типовые ответы, сбор данных и передача обращения человеку."},{"slug":"crm-integration","name":"Интеграция с CRM","tag":"Заявки, источники и статусы в согласованной системе учёта."},{"slug":"process-automation","name":"Автоматизация операций","tag":"Связанные шаги, уведомления и контроль исключений."},{"slug":"analytics","name":"Аналитика заявок и оплат","tag":"Источники обращений и движение до записи или оплаты."},{"slug":"marketing-automation","name":"Маркетинговые коммуникации","tag":"Ответы и напоминания по событиям, с правилами остановки."}];
+  const legacyRoutes={marketing:'marketing-automation',workforce:'sales-automation',development:'websites',backend:'crm-integration',automation:'process-automation',assistants:'chatbots'};
+  const svcLink = s => 'services/'+(legacyRoutes[s.slug]||s.slug)+'.html';
 
   /* ---------- 0 · chrome ---------- */
   document.body.insertAdjacentHTML('afterbegin', `
@@ -20,98 +54,23 @@
     <header class="hdr" data-od-id="header">
       <a class="logo" href="index.html#top" data-cursor="link" aria-label="Nexora — на главную"><span data-glitch>NEXORA</span></a>
       <nav class="nav" aria-label="Навигация">
-        <div class="has-mega"><a href="index.html#services">Услуги</a><div class="mega">${D.services.map(s => `<a href="${svcLink(s)}"><b>${s.name}</b><span>${s.tag}</span></a>`).join('')}</div></div>
+        <div class="has-mega"><a href="index.html#services">Услуги</a><div class="mega">${currentServices.map(s => `<a href="${svcLink(s)}"><b>${s.name}</b><span>${s.tag}</span></a>`).join('')}</div></div>
         <a href="index.html#results">Результаты</a><a href="index.html#process">Процесс</a><a href="index.html#faq">Вопросы</a>
       </nav>
-      <div class="hdr-r"><button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Включить звук" title="Включить звук"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3Z"/><path class="sound-wave" d="M16 9a4 4 0 0 1 0 6M18.5 6a8 8 0 0 1 0 12"/><path class="sound-off" d="m17 9 5 6m0-6-5 6"/></svg></button>
-        <a class="btn" href="contact.html">Обсудить проект</a>
-        <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu"><span id="menu-label">Меню</span><i></i></button></div>
+      <div class="hdr-r">
+        <a class="btn" href="index.html#contact">Обсудить проект</a>
+        <button class="menu-btn nx-trigger" id="menu-btn" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nx-navigation"><span class="nx-lines" aria-hidden="true"></span></button></div>
     </header>
-    <div class="menu" id="menu" aria-hidden="true"><ul>
-      <li><a href="index.html#services"><i class="dm"></i>Услуги</a></li><li><a href="index.html#results"><i class="dm"></i>Результаты</a></li><li><a href="index.html#process"><i class="dm"></i>Процесс</a></li>
-      <li><a href="index.html#faq"><i class="dm"></i>Вопросы</a></li><li><a href="contact.html"><i class="dm"></i>Контакты</a></li></ul></div>`);
+    `);
   const fm = $('#footer-mount');
   if (fm) fm.outerHTML = `
     <footer class="footer" data-od-id="footer"><div class="wrap"><div class="footer-grid">
-      <div><a class="logo" href="index.html#top">NEXORA</a><p style="margin-top:18px">Интеллект, который умножает бизнес. Помогаем продавать умнее, строить быстрее и расти без перегрузки.</p></div>
-      <div><h4>Услуги</h4><ul>${D.services.map(s => `<li><a href="${svcLink(s)}">${s.name}</a></li>`).join('')}</ul></div>
-      <div><h4>Компания</h4><ul><li><a href="contact.html">Контакты</a></li><li><a href="mailto:hello@nexora.ai">hello@nexora.ai</a></li></ul></div></div></div>
+      <div><a class="logo" href="index.html#top">NEXORA</a><p style="margin-top:18px">Интеллект, который умножает бизнес. Помогаем продавать умнее, строить быстрее и расти без перегрузки.</p><span class="footer-molecule footer-molecule-imprint" aria-hidden="true"></span></div>
+      <div><h4>Услуги</h4><ul>${currentServices.map(s => `<li><a href="${svcLink(s)}">${s.name}</a></li>`).join('')}</ul></div>
+      <div><h4>Компания</h4><ul><li><a href="index.html#contact">Контакты</a></li><li><a href="mailto:hello@nexora.ai">hello@nexora.ai</a></li></ul></div></div></div>
       <div class="wrap"><div class="footer-base"><span>© ${new Date().getFullYear()} Nexora AI. Все права защищены.</span><span>Работаем удалённо по всему миру</span></div></div></footer>`;
 
-  /* ---------- 1 · tactile sound (off by default, synthesised, no assets) ---------- */
-  const Snd = {
-    on: localStorage.getItem('nx-snd') === '1', ctx: null, master: null, noise: null, hold: null,
-    init() {
-      if (!this.ctx) {
-        const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
-        const c = this.ctx = new AC(), limiter = c.createDynamicsCompressor(), master = this.master = c.createGain();
-        limiter.threshold.value = -24; limiter.knee.value = 14; limiter.ratio.value = 8; limiter.attack.value = .004; limiter.release.value = .18;
-        master.gain.value = .72; master.connect(limiter).connect(c.destination);
-        const noise = this.noise = c.createBuffer(1, c.sampleRate, c.sampleRate), data = noise.getChannelData(0);
-        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-      }
-      if (this.ctx.state === 'suspended') this.ctx.resume();
-      return true;
-    },
-    blip(f = 660, dur = .14, g = .03, type = 'sine') {
-      if (!this.on || !this.init()) return;
-      const c = this.ctx, t = c.currentTime, root = clamp(f / 6, 48, 130), length = clamp(dur, .13, .72), level = clamp(g, .008, .04);
-      const body = c.createOscillator(), bodyGain = c.createGain();
-      body.type = 'triangle'; body.frequency.setValueAtTime(root * 1.55, t); body.frequency.exponentialRampToValueAtTime(root * .82, t + Math.min(.16, length));
-      bodyGain.gain.setValueAtTime(.0001, t); bodyGain.gain.exponentialRampToValueAtTime(level * 1.35, t + .008); bodyGain.gain.exponentialRampToValueAtTime(.0001, t + length);
-      body.connect(bodyGain).connect(this.master); body.start(t); body.stop(t + length + .02);
-
-      const metal = c.createOscillator(), metalFilter = c.createBiquadFilter(), metalGain = c.createGain();
-      metal.type = type === 'triangle' ? 'triangle' : 'sawtooth';
-      metal.frequency.setValueAtTime(root * 3.31, t); metal.frequency.exponentialRampToValueAtTime(root * 2.73, t + length);
-      metalFilter.type = 'bandpass'; metalFilter.frequency.value = root * 4.1; metalFilter.Q.value = 1.7;
-      metalGain.gain.setValueAtTime(.0001, t); metalGain.gain.exponentialRampToValueAtTime(level * .7, t + .004); metalGain.gain.exponentialRampToValueAtTime(.0001, t + length * .78);
-      metal.connect(metalFilter).connect(metalGain).connect(this.master); metal.start(t); metal.stop(t + length + .02);
-
-      const grit = c.createBufferSource(), gritFilter = c.createBiquadFilter(), gritGain = c.createGain();
-      grit.buffer = this.noise; gritFilter.type = 'bandpass'; gritFilter.frequency.value = 720 + root * 3; gritFilter.Q.value = .8;
-      gritGain.gain.setValueAtTime(.0001, t); gritGain.gain.exponentialRampToValueAtTime(level * .55, t + .003); gritGain.gain.exponentialRampToValueAtTime(.0001, t + .065);
-      grit.connect(gritFilter).connect(gritGain).connect(this.master); grit.start(t, Math.random() * .7); grit.stop(t + .08);
-    },
-    open(i = 0) {
-      this.blip(410 + i * 17, .38, .03);
-      setTimeout(() => this.blip(310 + i * 13, .24, .014, 'triangle'), 86);
-    },
-    holdStart() {
-      if (!this.on || !this.init() || this.hold) return;
-      const c = this.ctx, t = c.currentTime, body = c.createOscillator(), overtone = c.createOscillator(), lfo = c.createOscillator();
-      const filter = c.createBiquadFilter(), bodyGain = c.createGain(), overtoneGain = c.createGain(), wobble = c.createGain();
-      body.type = 'sawtooth'; body.frequency.value = 46; filter.type = 'lowpass'; filter.frequency.value = 160; filter.Q.value = 2.8;
-      overtone.type = 'triangle'; overtone.frequency.value = 139; lfo.type = 'sine'; lfo.frequency.value = 18; wobble.gain.value = 28;
-      bodyGain.gain.value = 0; overtoneGain.gain.value = 0;
-      body.connect(filter).connect(bodyGain).connect(this.master);
-      overtone.connect(overtoneGain).connect(this.master);
-      lfo.connect(wobble).connect(filter.frequency);
-      [body, overtone, lfo].forEach(o => o.start(t));
-      this.hold = { body, overtone, lfo, filter, bodyGain, overtoneGain };
-    },
-    holdUpdate(h) {
-      if (!this.hold) return;
-      const t = this.ctx.currentTime, s = this.hold, depth = clamp(h, 0, 1);
-      s.body.frequency.setTargetAtTime(46 + depth * 52, t, .045);
-      s.overtone.frequency.setTargetAtTime(139 + depth * 123, t, .05);
-      s.filter.frequency.setTargetAtTime(160 + depth * 790, t, .045);
-      s.bodyGain.gain.setTargetAtTime(.028 * depth, t, .045);
-      s.overtoneGain.gain.setTargetAtTime(.011 * depth, t, .06);
-    },
-    holdStop() {
-      if (!this.hold) return;
-      const { body, overtone, lfo, bodyGain, overtoneGain } = this.hold, t = this.ctx.currentTime;
-      bodyGain.gain.setTargetAtTime(0, t, .065); overtoneGain.gain.setTargetAtTime(0, t, .065);
-      [body, overtone, lfo].forEach(o => o.stop(t + .42));
-      this.hold = null; this.blip(460, .62, .026, 'triangle');
-    }
-  };
-  const sndBtn = $('#snd');
-  const paintSound = () => { const label = Snd.on ? 'Выключить звук' : 'Включить звук'; sndBtn.setAttribute('aria-pressed', String(Snd.on)); sndBtn.setAttribute('aria-label', label); sndBtn.title = label; };
-  paintSound();
-  sndBtn.addEventListener('click', () => { Snd.on = !Snd.on; localStorage.setItem('nx-snd', Snd.on ? '1' : '0'); paintSound(); if (Snd.on) { Snd.init(); Snd.blip(540, .24, .03); } else Snd.holdStop(); });
-
+  /* Audio removed. */
   /* ---------- 2 · digital glitch ---------- */
   const GLYPHS = '▓▒░█#@%&01<>/\\|=+';
   const dispEl = $('#gf-disp'), turbEl = $('#gf-turb');
@@ -142,9 +101,9 @@
   if (fine) glitchEls.forEach(el => el.addEventListener('pointerenter', () => { const hb = el.classList.contains('hero-brand'); if (hb && NX.holding) return; burst(el, hb ? 200 : el.classList.contains('contact-title') ? 260 : 440, hb ? .55 : el.classList.contains('contact-title') ? .3 : .7); }));
   if (!reduce) setInterval(() => { const vis = glitchEls.filter(e => (e.classList.contains('hero-brand') || e.classList.contains('footer-word')) && e.getBoundingClientRect().bottom > 0 && e.getBoundingClientRect().top < innerHeight); if (vis.length) burst(vis[0], rand(200, 340), .8); }, 4500);
 
-  let lenis = null, closeMenu = () => {};
+  let lenis = null, closeMenu = () => window.NXNavigation?.close();
   document.addEventListener('click', e => {
-    const a = e.target.closest('a[href*="#"]'); if (!a) return;
+    const a = e.target.closest('a[href*="#"]'); if (!a || a.closest('.nx-layer')) return;
     const raw = a.getAttribute('href'), m = raw.match(/^(?:index\.html)?(#.+)$/);
     if (!m || (!raw.startsWith('#') && page !== 'home')) return;
     const url = { hash: m[1] };
@@ -158,13 +117,6 @@
 
   if (!gsapOK) {
     const loader = $('.loader'); if (loader) loader.style.display = 'none';
-    const fallbackMenu = $('#menu'), fallbackButton = $('#menu-btn');
-    closeMenu = () => { fallbackButton.setAttribute('aria-expanded', 'false'); fallbackMenu.setAttribute('aria-hidden', 'true'); fallbackMenu.style.visibility = 'hidden'; fallbackMenu.style.clipPath = 'inset(0 0 100% 0)'; };
-    fallbackButton.addEventListener('click', () => {
-      const open = fallbackButton.getAttribute('aria-expanded') !== 'true';
-      fallbackButton.setAttribute('aria-expanded', String(open)); fallbackMenu.setAttribute('aria-hidden', String(!open));
-      fallbackMenu.style.visibility = open ? 'visible' : 'hidden'; fallbackMenu.style.clipPath = open ? 'inset(0)' : 'inset(0 0 100% 0)';
-    });
     if (page === 'home' && window.NXBall) NXBall.run(true);
     return;
   }
@@ -174,17 +126,8 @@
 
   /* ---------- 3 · smooth scroll, menu ---------- */
   if (window.Lenis && !reduce) { lenis = new Lenis({ lerp: .085, wheelMultiplier: .9 }); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
-  const menu = $('#menu'), menuBtn = $('#menu-btn'), menuLabel = $('#menu-label'); let menuOpen = false;
-  closeMenu = function(now) { if (!menuOpen) return; menuOpen = false; menuBtn.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-hidden', 'true'); menuLabel.textContent = 'Меню'; lenis && lenis.start(); gsap.killTweensOf(menu); gsap.killTweensOf('#menu li a'); gsap.to(menu, { clipPath: 'inset(0% 0% 100% 0%)', duration: now ? .01 : matchMedia('(max-width: 1039px)').matches ? .24 : .7, ease: 'power2.in', onComplete: () => { if (!menuOpen) menu.style.visibility = 'hidden'; } }); };
-  menuBtn.addEventListener('click', () => {
-    if (menuOpen) return closeMenu();
-    const mobileMenu = matchMedia('(max-width: 1039px)').matches;
-    gsap.killTweensOf(menu); gsap.killTweensOf('#menu li a');
-    menuOpen = true; menu.style.visibility = 'visible'; menuBtn.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false'); menuLabel.textContent = 'Закрыть'; lenis && lenis.stop();
-    gsap.to(menu, { clipPath: 'inset(0% 0% 0% 0%)', duration: mobileMenu ? .28 : .8, ease: mobileMenu ? 'power2.out' : 'power4.inOut' });
-    gsap.fromTo('#menu li a', { yPercent: mobileMenu ? 24 : 110 }, { yPercent: 0, duration: mobileMenu ? .32 : .9, ease: 'power4.out', stagger: mobileMenu ? .035 : .07, delay: mobileMenu ? 0 : .25 });
-  });
-  addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  let menuOpen = false;
+  document.addEventListener('nx:menu', e => { menuOpen = e.detail.open; if (lenis) menuOpen ? lenis.stop() : lenis.start(); if (menuOpen) document.querySelector('.hdr')?.classList.remove('hide'); });
 
   /* ---------- 4 · cursor lens ---------- */
   if (fine) {
@@ -218,7 +161,7 @@
     ScrollTrigger.create({ trigger: el, start: 'top 82%', once: true, onEnter: () => {
       const tl = gsap.timeline(); tl.to(dm, { rotation: 45, scale: 1, duration: .8, ease: 'back.out(2.2)' })
         .to(nb, { clipPath: 'inset(0 0% 0 0)', duration: .9, ease: 'power3.out' }, '-=.35').to(words, { yPercent: 0, duration: .9, ease: 'power4.out', stagger: .012 }, '-=.7');
-      Snd.blip(520 + Math.random() * 200, .18, .015);
+      
     } });
   }
   function initReveals(root = document) {
@@ -245,7 +188,7 @@
     $$('details', root).forEach(d => { const sum = $('summary', d), ans = $('.ans', d);
       sum.addEventListener('click', e => { e.preventDefault();
         if (d.open) gsap.to(ans, { height: 0, duration: .5, ease: 'power3.inOut', onComplete: () => { d.open = false; gsap.set(ans, { height: 'auto' }); } });
-        else { d.open = true; Snd.blip(600, .12, .015); gsap.fromTo(ans, { height: 0 }, { height: 'auto', duration: .6, ease: 'power3.out', onComplete: () => ScrollTrigger.refresh() }); } }); });
+        else { d.open = true;  gsap.fromTo(ans, { height: 0 }, { height: 'auto', duration: .6, ease: 'power3.out', onComplete: () => ScrollTrigger.refresh() }); } }); });
   }
 
   /* ---------- 7 · pages ---------- */
@@ -284,7 +227,7 @@
       }
 
       /* hold the wordmark: charge the molecule (colour flip + particle cloud) */
-      const setHold = on => { if (on === NX.holding) return; NX.holding = on; on ? Snd.holdStart() : Snd.holdStop(); };
+      const setHold = on => { if (on === NX.holding) return; NX.holding = on;  };
       brand.addEventListener('pointerdown', e => { e.preventDefault(); setHold(true); brand.setPointerCapture && brand.setPointerCapture(e.pointerId); });
       ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => brand.addEventListener(t, () => setHold(false)));
       brand.addEventListener('contextmenu', e => e.preventDefault());
@@ -293,7 +236,7 @@
       brand.addEventListener('pointerenter', () => (NX.boostTarget = 1)); brand.addEventListener('pointerleave', () => (NX.boostTarget = 0));
       let hb = 0;
       gsap.ticker.add(() => {
-        const h = NX.hold; hero.style.setProperty('--hold', h.toFixed(3)); document.documentElement.classList.toggle('charged', h > .5); Snd.holdUpdate(h);
+        const h = NX.hold; hero.style.setProperty('--hold', h.toFixed(3)); document.documentElement.classList.toggle('charged', h > .5); 
         if (NX.holding && performance.now() - hb > 380) { hb = performance.now(); burst(brand, 300, 1 + h); }
       });
       ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: s => (NX.scroll = s.progress) });
@@ -422,7 +365,7 @@
         const box = $('#field'); if (!box) return;
         const items = $$('.dmd', box).map((el, i) => ({ el, i, fx: +el.dataset.x, fy: +el.dataset.y, x: 0, y: 0, vx: 0, vy: 0, lockX: 0, lockY: 0, ph: rand(0, 6.28), sp: rand(.7, 1.3), open: false, pinned: false }));
         const edges = [[0, 2], [0, 1], [1, 3], [2, 3], [2, 4], [3, 5], [4, 5], [5, 6], [3, 6]];
-        const setOpen = (it, on, pin) => { if (on && !it.open) { it.lockX = it.x; it.lockY = it.y; it.vx = it.vy = 0; } it.open = on; it.el.classList.toggle('open', on); $('.dmd-node', it.el).setAttribute('aria-expanded', String(on)); if (on) Snd.open(it.i); if (!on) it.pinned = false; if (pin !== undefined) it.pinned = pin; it.el.classList.toggle('held', it.pinned); };
+        const setOpen = (it, on, pin) => { if (on && !it.open) { it.lockX = it.x; it.lockY = it.y; it.vx = it.vy = 0; } it.open = on; it.el.classList.toggle('open', on); $('.dmd-node', it.el).setAttribute('aria-expanded', String(on));  if (!on) it.pinned = false; if (pin !== undefined) it.pinned = pin; it.el.classList.toggle('held', it.pinned); };
         const closeAll = except => items.forEach(o => { if (o !== except) setOpen(o, false); });
         const live = !reduce && innerWidth >= 720;
         matchMedia('(min-width: 720px)').addEventListener('change', () => { try { sessionStorage.setItem('nxNoIntro', '1'); } catch (_) {} location.reload(); });
@@ -496,7 +439,7 @@
         const fill = i => { const src = items[i]; pIc.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[i % 6]}"/></svg>`; const sv = D.services.find(s => s.slug === SOLVE[i % 6]); if (sv) { pFix.href = svcLink(sv); pFix.innerHTML = `Как решаем: <b>${sv.name}</b> →`; } pnum.textContent = $('.num', src).textContent; ph3.textContent = $('h3', src).textContent; pp.textContent = $('p', src).textContent;
           const words = [ph3, pp].flatMap(el => { el.innerHTML = el.textContent.split(/\s+/).map(w => `<span class="w"><span class="wi">${w}</span></span>`).join(' '); return $$('.wi', el); });
           gsap.fromTo(panel, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: .8, ease: 'power3.out' });
-          gsap.fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: .8, ease: 'power4.out', stagger: .012 }); gsap.fromTo(pnum, { opacity: 0 }, { opacity: 1, duration: .6 }); Snd.blip(420 + i * 60, .2, .02); NXGalaxy.boost = 1; setTimeout(() => (NXGalaxy.boost = 0), 500); };
+          gsap.fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: .8, ease: 'power4.out', stagger: .012 }); gsap.fromTo(pnum, { opacity: 0 }, { opacity: 1, duration: .6 });  NXGalaxy.boost = 1; setTimeout(() => (NXGalaxy.boost = 0), 500); };
         /* phones: NO js pin (its fixed<->absolute swap is what jumped). The section is simply tall and the stage is natively position:sticky, so it lets go smoothly. */
         if (mob()) sec.style.height = `calc(100svh + ${(N - 1) * 84}vh)`;
         st = ScrollTrigger.create({ trigger: sec, start: 'top top', end: mob() ? 'bottom bottom' : () => '+=' + (N - 1) * 160 + 'vh', ...(mob() ? {} : { pin: stage, anticipatePin: 1 }), scrub: mob() ? .6 : true, snap: mob() ? false : { snapTo: 1 / (N - 1), duration: { min: .3, max: .6 }, delay: .2, ease: 'power2.inOut' }, invalidateOnRefresh: true, onUpdate: s => { const h = mob() ? .12 : 0; posT = clamp((s.progress - h) / (1 - 2 * h), 0, 1) * (N - 1); }   /* phones: dead zones at both ends so the block lands on item 1 and lets go after the last one */, onRefresh: measure });
@@ -564,7 +507,7 @@
         ScrollTrigger.create({ trigger: '.why-pin', start: 'top top', end: '+=260%', pin: true, scrub: true, onUpdate: s => {
           setWl(clamp((s.progress - .45) / .5, 0, 1));
           const i = Math.min(3, Math.floor(s.progress * 4));
-          if (i !== cur) { slides[cur].classList.remove('on'); tabs[cur].classList.remove('on'); cur = i; slides[i].classList.add('on'); tabs[i].classList.add('on'); Snd.blip(440 + i * 110, .25, .02); }
+          if (i !== cur) { slides[cur].classList.remove('on'); tabs[cur].classList.remove('on'); cur = i; slides[i].classList.add('on'); tabs[i].classList.add('on');  }
           gsap.set(fr[0], { rotation: 45 + s.progress * 90 }); gsap.set(fr[1], { rotation: 45 - s.progress * 140 }); gsap.set(fr[2], { rotation: 45 + s.progress * 220 }); } }); },
         '(max-width: 999px)': () => { slides.forEach(s => s.classList.add('on')); document.body.classList.add('why-static'); setWl(1); } });
 
@@ -611,7 +554,7 @@
         const upd = () => { const m = gTrack.scrollWidth - gTrack.clientWidth, p = m > 0 ? gTrack.scrollLeft / m : 0; gBar.style.transform = `scaleX(${(.15 + .85 * p).toFixed(3)})`; };
         gTrack.addEventListener('scroll', upd, { passive: true }); upd();
         $$('.gal-btn').forEach(b => b.addEventListener('click', () => gTrack.scrollBy({ left: Number(b.dataset.dir) * (cards[0].offsetWidth + 12), behavior: reduce ? 'auto' : 'smooth' })));
-        if (!reduce) gsap.from(cards, { opacity: 0, y: 40, duration: .9, ease: 'power3.out', stagger: .1, scrollTrigger: { trigger: gTrack, start: 'top 85%' } });
+        if (!reduce) gsap.from(cards, { opacity: 0, y: 24, duration: .4, ease: 'power3.out', stagger: .04, scrollTrigger: { trigger: gTrack, start: 'top 88%' } });
       }
 
       /* contact (legacy-red look): title glitches in, the round button pops and follows the cursor, clock ticks */
@@ -657,10 +600,92 @@
       const box = $('.form'), form = $('form', box);
       form.addEventListener('submit', e => { e.preventDefault(); let ok = true;
         $$('[required]', form).forEach(f => { const bad = !f.value.trim() || (f.type === 'email' && !/^\S+@\S+\.\S+$/.test(f.value)); f.closest('.field').classList.toggle('bad', bad); if (bad) ok = false; });
-        if (!ok) return; box.classList.add('sent'); Snd.open(2); gsap.from('.done', { opacity: 0, y: 20, duration: .8, ease: 'power3.out' }); }); // отправка пока не подключена к бэкенду
+        if (!ok) return; box.classList.add('sent');  gsap.from('.done', { opacity: 0, y: 20, duration: .8, ease: 'power3.out' }); }); // отправка пока не подключена к бэкенду
       $('#again').addEventListener('click', () => { box.classList.remove('sent'); form.reset(); });
       lenis && lenis.start();
     }
   };
   (PAGES[page] || (() => {}))();
+})();
+
+
+/* Home: fill the gaps between the existing word, scene and gallery reveals.
+   Individual text children keep orbit positioning and hover transforms intact. */
+(() => {
+ if(document.body.dataset.page!=='home'||!('IntersectionObserver' in window))return;
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');
+ if(preference.matches)return;
+ const selector='#results .orb > .val, #results .orb > p, #results .results-ornament, #faq .faq > details, #contact .contact-title, #contact .contact-strip > *, .footer-grid > *, .footer-base > *';
+ const targets=[...document.querySelectorAll(selector)];
+ const pending=new Set(targets);
+ const show=el=>{el.classList.add('nx-scroll-visible');pending.delete(el);observer.unobserve(el);};
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  if(entry.isIntersecting)show(entry.target);
+ }),{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+ targets.forEach(el=>{
+  const parent=el.parentElement;
+  const siblings=[...parent.children].filter(child=>child.matches(selector));
+  el.style.setProperty('--nx-reveal-delay',Math.min(siblings.indexOf(el),3)*40+'ms');
+  el.classList.add('nx-scroll-reveal');observer.observe(el);
+ });
+ document.addEventListener('focusin',event=>{
+  const el=event.target.closest('.nx-scroll-reveal');if(el&&pending.has(el))show(el);
+ });
+ // Anchor navigation and system motion changes must never leave content hidden.
+ const showAnchor=()=>{
+  let target;try{target=document.querySelector(location.hash);}catch{return;}
+  if(!target)return;
+  [...pending].forEach(el=>{if(target===el||target.contains(el)||el.contains(target))show(el);});
+ };
+ addEventListener('hashchange',showAnchor);if(location.hash)showAnchor();
+ preference.addEventListener('change',event=>{if(event.matches){[...pending].forEach(show);observer.disconnect();}});
+})();
+/* Contact form is a deliberate email handoff, never a simulated submission. */
+(() => {
+ const dialog=document.querySelector('#nx-contact-dialog');if(!dialog)return;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)'),root=document.documentElement;
+ const form=dialog.querySelector('form'),name=form.elements.namedItem('person'),contact=form.elements.namedItem('contact'),message=form.elements.namedItem('message');
+ const status=dialog.querySelector('[data-contact-status]'),summary=dialog.querySelector('[data-contact-summary]'),exportBox=dialog.querySelector('[data-contact-export]');
+ let origin=null,locked=null,closing=false,animation=null;
+ const move=(frames,duration)=>!reduced.matches&&dialog.animate?dialog.animate(frames,{duration,easing:'cubic-bezier(.2,.7,.2,1)'}):null;
+ function open(trigger){
+  if(dialog.open)return;origin=trigger||document.activeElement;
+  locked={overflow:root.style.overflow,padding:root.style.paddingRight};
+  const gap=innerWidth-root.clientWidth;root.style.setProperty('--nx-modal-gap',gap+'px');root.style.overflow='hidden';if(gap)root.style.paddingRight=(parseFloat(getComputedStyle(root).paddingRight)+gap)+'px';
+  dialog.showModal();dialog.scrollTop=0;root.classList.add('nx-contact-open');
+  document.dispatchEvent(new CustomEvent('nx:menu',{detail:{open:true}}));
+  animation=move([{opacity:0,transform:'translateY(16px) scale(.96)'},{opacity:1,transform:'translateY(0) scale(1)'}],360);
+  name.focus({preventScroll:true});
+ }
+ async function close(){
+  if(!dialog.open||closing)return;closing=true;animation?.cancel();root.classList.remove('nx-contact-open');
+  animation=move([{opacity:1,transform:'translateY(0) scale(1)'},{opacity:0,transform:'translateY(8px) scale(.98)'}],240);
+  if(animation)try{await animation.finished;}catch{}
+  dialog.close();root.style.overflow=locked.overflow;root.style.paddingRight=locked.padding;root.style.removeProperty('--nx-modal-gap');
+  document.dispatchEvent(new CustomEvent('nx:menu',{detail:{open:false}}));closing=false;animation=null;
+  if(origin?.isConnected)origin.focus({preventScroll:true});
+ }
+ document.addEventListener('click',event=>{
+  const a=event.target.closest('a');if(!a||a.closest('.nx-layer')||a.closest('#nx-contact-dialog'))return;
+  const url=new URL(a.href,location.href),home=url.pathname.replace(/index\.html$/,'')===location.pathname.replace(/index\.html$/,'');
+  if(a.hasAttribute('data-nx-contact')||(home&&url.origin===location.origin&&url.hash==='#contact')){event.preventDefault();event.stopImmediatePropagation();open(a);}
+ },true);
+ dialog.querySelector('[data-contact-close]').addEventListener('click',close);
+ dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
+ dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)close();});
+ function validate(field){
+  let error='';const value=field.value.trim();
+  if(field===name&&value.length<2)error='Укажите имя — хотя бы два символа.';
+  if(field===contact&&value.length<3)error='Укажите email, телефон или имя в Telegram, чтобы мы могли ответить.';
+  if(field===contact&&value.includes('@')&&!value.startsWith('@')&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))error='Проверьте email: например, name@example.com.';
+  const node=document.getElementById(field.id+'-error');node.textContent=error;field.setAttribute('aria-invalid',String(!!error));return !error;
+ }
+ [name,contact].forEach(field=>field.addEventListener('blur',()=>validate(field)));
+ function ready(){
+  const invalid=[name,contact].filter(field=>!validate(field));summary.replaceChildren();
+  if(invalid.length){summary.append('Проверьте поля: ');invalid.forEach((field,index)=>{if(index)summary.append(', ');const link=document.createElement('a');link.href='#'+field.id;link.textContent=field===name?'имя':'способ связи';link.addEventListener('click',event=>{event.preventDefault();field.focus();});summary.append(link);});invalid[0].focus();return false;}return true;
+ }
+ const text=()=>['Запрос на бесплатную стратегическую сессию Nexora','Имя: '+name.value.trim(),'Связь: '+contact.value.trim(),'Задача: '+(message.value.trim()||'Обсудим на встрече')].join('\n\n');
+ form.addEventListener('submit',event=>{event.preventDefault();if(!ready())return;exportBox.value=text();exportBox.hidden=false;status.textContent='Открываем письмо. Отправьте его из почтового приложения. Если оно не открылось — скопируйте обращение ниже.';location.href='mailto:hello@nexora.ai?subject='+encodeURIComponent('Nexora / Стратегическая сессия')+'&body='+encodeURIComponent(text());});
+ dialog.querySelector('[data-contact-copy]').addEventListener('click',async()=>{if(!ready())return;try{await navigator.clipboard.writeText(text());status.textContent='Обращение скопировано. Отправьте его на hello@nexora.ai.';}catch{exportBox.hidden=false;exportBox.value=text();exportBox.focus();exportBox.select();status.textContent='Выделили обращение ниже. Скопируйте через меню устройства или Ctrl+C и отправьте на hello@nexora.ai.';}});
 })();
