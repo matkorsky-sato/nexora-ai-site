@@ -1,0 +1,4 @@
+﻿.file-versions/
+.od-*/
+*.artifact.json
+/image*.png

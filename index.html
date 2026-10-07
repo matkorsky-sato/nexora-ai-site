@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0710">
+  <title>Nexora AI — интеллект, который умножает бизнес</title>
+  <meta name="description" content="Nexora AI — интеллект, который умножает бизнес.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="home">
+
+
+  <div class="loader" aria-hidden="true">
+    <div class="panel t"></div><div class="panel b"></div>
+    <div class="loader-core"><span class="loader-dm"><i></i></span><div class="loader-count digits" data-glitch>000</div></div>
+  </div>
+
+  <canvas id="model-view" aria-label="Интерактивная 3D-молекула"></canvas>
+
+  <main>
+    <!-- 01 HERO -->
+    <section class="hero" id="top" data-od-id="hero">
+      <div class="wrap hero-body">
+        <h1 class="h1" data-split>Интеллект, который <span class="rasp">умножает</span> бизнес</h1>
+        <p class="lead">Малому бизнесу и соло-предпринимателям нужен ИИ корпоративного уровня. Мы даём его без сложностей и лишних затрат.</p>
+        <div class="hero-cta">
+          <a class="btn solid" href="contact.html" data-magnetic="0.2" data-od-id="hero-cta-primary">Бесплатная стратегическая сессия <span class="ar">→</span></a>
+          <a class="link" href="#services" data-od-id="hero-cta-secondary">Смотреть услуги</a>
+        </div>
+        <span class="hold-hint"><i class="dm"></i>Зажмите слово NEXORA</span>
+      </div>
+      <h2 class="hero-brand" id="brand" data-glitch tabindex="0" role="button" aria-label="Nexora. Зажмите, чтобы зарядить молекулу" data-cursor="label" data-cursor-text="Зажми">NEXORA</h2>
+      <div class="wrap hero-meta label">
+        <div class="readout"><span>Rot Y <em id="ry">000°</em></span><span>Rot X <em id="rx">000°</em></span></div>
+        <span class="hero-tagline">next gen development agency</span>
+        <span class="scroll-cue">Скролл <i></i></span>
+      </div>
+    </section>
+
+    <!-- 02 MANIFESTO -->
+    <section class="sec manifesto" data-od-id="manifesto">
+      <svg class="manifesto-signal manifesto-signal-left" viewBox="0 0 360 620" preserveAspectRatio="xMinYMid meet" aria-hidden="true">
+        <defs><linearGradient id="sgu0" gradientUnits="userSpaceOnUse" x1="0" y1="-520" x2="0" y2="108"><stop offset="0" stop-color="#c9a45c" stop-opacity="0"/><stop offset=".35" stop-color="#c9a45c" stop-opacity=".05"/><stop offset=".7" stop-color="#c9a45c" stop-opacity=".22"/><stop offset="1" stop-color="#c9a45c" stop-opacity=".48"/></linearGradient><linearGradient id="sgd0" gradientUnits="userSpaceOnUse" x1="0" y1="518" x2="0" y2="1120"><stop offset="0" stop-color="#c9a45c" stop-opacity=".48"/><stop offset=".3" stop-color="#c9a45c" stop-opacity=".22"/><stop offset=".65" stop-color="#c9a45c" stop-opacity=".05"/><stop offset="1" stop-color="#c9a45c" stop-opacity="0"/></linearGradient></defs>
+        <path class="signal-ext" style="stroke:url(#sgu0)" d="M100 -2400 V108"/>
+        <path class="signal-ext" style="stroke:url(#sgd0)" d="M192 518 V3000"/>
+        <path class="signal-line" pathLength="1" d="M0 108 H100 L170 178 H276"/>
+        <path class="signal-line" pathLength="1" d="M0 310 H86 L150 246 H262"/>
+        <path class="signal-line" pathLength="1" d="M0 518 H114 L192 440 H298"/>
+        <path class="signal-line signal-cross" pathLength="1" d="M100 108 V208 L150 246 V376 L192 440 V518"/>
+        <path class="signal-node" d="M276 166 L288 178 L276 190 L264 178 Z"/>
+        <circle class="signal-node" cx="262" cy="246" r="7"/>
+        <path class="signal-node" d="M298 429 L309 440 L298 451 L287 440 Z"/>
+      </svg>
+      <svg class="manifesto-signal manifesto-signal-right" viewBox="0 0 360 620" preserveAspectRatio="xMinYMid meet" aria-hidden="true">
+        <defs><linearGradient id="sgu1" gradientUnits="userSpaceOnUse" x1="0" y1="-520" x2="0" y2="108"><stop offset="0" stop-color="#c9a45c" stop-opacity="0"/><stop offset=".35" stop-color="#c9a45c" stop-opacity=".05"/><stop offset=".7" stop-color="#c9a45c" stop-opacity=".22"/><stop offset="1" stop-color="#c9a45c" stop-opacity=".48"/></linearGradient><linearGradient id="sgd1" gradientUnits="userSpaceOnUse" x1="0" y1="518" x2="0" y2="1120"><stop offset="0" stop-color="#c9a45c" stop-opacity=".48"/><stop offset=".3" stop-color="#c9a45c" stop-opacity=".22"/><stop offset=".65" stop-color="#c9a45c" stop-opacity=".05"/><stop offset="1" stop-color="#c9a45c" stop-opacity="0"/></linearGradient></defs>
+        <path class="signal-ext" style="stroke:url(#sgu1)" d="M100 -2400 V108"/>
+        <path class="signal-ext" style="stroke:url(#sgd1)" d="M192 518 V3000"/>
+        <path class="signal-line" pathLength="1" d="M0 108 H100 L170 178 H276"/>
+        <path class="signal-line" pathLength="1" d="M0 310 H86 L150 246 H262"/>
+        <path class="signal-line" pathLength="1" d="M0 518 H114 L192 440 H298"/>
+        <path class="signal-line signal-cross" pathLength="1" d="M100 108 V208 L150 246 V376 L192 440 V518"/>
+        <path class="signal-node" d="M276 166 L288 178 L276 190 L264 178 Z"/>
+        <circle class="signal-node" cx="262" cy="246" r="7"/>
+        <path class="signal-node" d="M298 429 L309 440 L298 451 L287 440 Z"/>
+      </svg>
+      <div class="wrap manifesto-content">
+        <p class="manifesto-text" id="manifesto">Мы продаём не технологии. Мы продаём время, ясность и рост.</p>
+        <div class="manifesto-note"><i class="dm"></i><p>Вы начинали бизнес, чтобы построить что-то значимое, а не тонуть в таблицах, тикетах поддержки и маркетинговых догадках. Мы берём рутину на себя.</p></div>
+      </div>
+    </section>
+
+    <!-- 03 CONSTELLATION: services -->
+    <section class="sec alt" id="services" data-od-id="services"><div class="wrap">
+      <div class="sec-head"><div class="kick"><i class="dm"></i><span class="label gold">Услуги</span></div><h2 class="h2" data-split>Великолепная <span class="rasp">VII</span></h2><p class="lead" data-reveal>Семь ИИ-услуг, которые можно брать по одной и добавлять по мере роста. <span class="hint-hover">Наведите на ромб.</span></p></div>
+      <svg class="svc-signal top" viewBox="0 0 800 64" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="sig-line" pathLength="1" d="M0 32 H300 L344 10 H470 L514 54 H800"/><path class="sig-line sig-cross" pathLength="1" d="M150 32 V54 H344"/><path class="sig-node" d="M700 24 L708 32 L700 40 L692 32 Z"/><circle class="sig-node" cx="514" cy="54" r="5"/></svg>
+      <ul class="field" id="field" aria-label="Услуги Nexora">
+        <li class="dmd" data-x=".07" data-y=".26"><button class="dmd-node" aria-expanded="false" aria-label="ИИ-маркетинг"><span class="dmd-shape"></span></button><span class="dmd-name">ИИ-маркетинг</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">O</span><h3>ИИ-маркетинг</h3></div><p>Анализ трафика, SEO-контент и персональные рассылки. Превращаем анонимных посетителей в выручку.</p><a class="link" href="service.html?s=marketing">Подробнее →</a></div></li>
+        <li class="dmd" data-x=".25" data-y=".74"><button class="dmd-node" aria-expanded="false" aria-label="Цифровой персонал"><span class="dmd-shape"></span></button><span class="dmd-name">Цифровой персонал</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">I</span><h3>Цифровой персонал</h3></div><p>ИИ-сотрудники для поддержки, продаж, исследований и операций. Работают 24/7 и масштабируются мгновенно.</p><a class="link" href="service.html?s=workforce">Подробнее →</a></div></li>
+        <li class="dmd" data-x=".36" data-y=".18"><button class="dmd-node" aria-expanded="false" aria-label="Студия разработки"><span class="dmd-shape"></span></button><span class="dmd-name">Студия разработки</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">X</span><h3>Студия разработки</h3></div><p>ИИ-разработка, которая понимает весь ваш код: пишет, отлаживает, рефакторит и деплоит в 10 раз быстрее.</p><a class="link" href="service.html?s=development">Подробнее →</a></div></li>
+        <li class="dmd" data-x=".55" data-y=".64"><button class="dmd-node" aria-expanded="false" aria-label="Бэкенд-платформа"><span class="dmd-shape"></span></button><span class="dmd-name">Бэкенд-платформа</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">S</span><h3>Бэкенд-платформа</h3></div><p>Инфраструктура, которая сама разворачивается, масштабируется и оптимизируется. Ноль операционной нагрузки.</p><a class="link" href="service.html?s=backend">Подробнее →</a></div></li>
+        <li class="dmd label-outward" data-x=".62" data-y=".12"><button class="dmd-node" aria-expanded="false" aria-label="Автоматизация бизнеса"><span class="dmd-shape"></span></button><span class="dmd-name">Автоматизация бизнеса</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">C</span><h3>Автоматизация бизнеса</h3></div><p>Умные боты ведут весь процесс: от привлечения лидов до выполнения заказа. Бизнес на автопилоте.</p><a class="link" href="service.html?s=automation">Подробнее →</a></div></li>
+        <li class="dmd" data-x=".8" data-y=".46"><button class="dmd-node" aria-expanded="false" aria-label="ИИ-сайты"><span class="dmd-shape"></span></button><span class="dmd-name">ИИ-сайты</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">W</span><h3>ИИ-сайты</h3></div><p>Сайты для генерации заявок, конверсии и доверия. Быстрые, красивые и настроенные превращать посетителей в клиентов.</p><a class="link" href="service.html?s=websites">Подробнее →</a></div></li>
+        <li class="dmd" data-x=".88" data-y=".84"><button class="dmd-node" aria-expanded="false" aria-label="Цифровые ассистенты"><span class="dmd-shape"></span></button><span class="dmd-name">Цифровые ассистенты</span><div class="dmd-panel"><div class="panel-head"><span class="panel-mark" aria-hidden="true">U</span><h3>Цифровые ассистенты</h3></div><p>ИИ-помощники для поддержки, продаж, расписания и операций. Дружат со всеми вашими инструментами.</p><a class="link" href="service.html?s=assistants">Подробнее →</a></div></li>
+      </ul>
+      <svg class="svc-signal bot" viewBox="0 0 800 64" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="sig-line" pathLength="1" d="M0 20 H260 L304 52 H560 L604 12 H800"/><path class="sig-line sig-cross" pathLength="1" d="M200 20 V44 H420"/><path class="sig-node" d="M100 12 L108 20 L100 28 L92 20 Z"/><circle class="sig-node" cx="604" cy="12" r="5"/></svg>
+      <p style="margin-top:40px" data-reveal><a class="link" href="contact.html">Не знаете, с чего начать? Напишите нам →</a></p>
+    </div></section>
+
+    <!-- 04 PAINS: galaxy + wheel of diamonds on an arc -->
+    <section class="pains" id="problem" data-od-id="problem">
+      <div class="pains-pin">
+        <canvas id="galaxy-view" aria-hidden="true"></canvas>
+        <svg class="pains-link" aria-hidden="true"><line/></svg>
+        <div class="pains-head"><div class="kick"><i class="dm"></i><span class="label gold">Проблема</span></div><h2 class="h2" data-split>Где вы теряете <span class="rasp">время и деньги</span></h2></div>
+        <div class="pains-panel" aria-live="polite"><span class="num"></span><h3></h3><p></p></div>
+        <ol class="arc">
+        <li class="pn" data-i="0"><i class="dm"></i><button class="pn-hit" type="button" aria-label="Лиды уходят"></button><span class="pn-t">Лиды уходят</span><div class="pn-src nb"><span class="num">01</span><h3>Лиды уходят</h3><p>Каждый посетитель, который ушёл без покупки, это выручка, ушедшая вместе с ним. Большинство компаний так и не возвращается к 73% своих лидов.</p></div></li>
+        <li class="pn" data-i="1"><i class="dm"></i><button class="pn-hit" type="button" aria-label="Рутина съедает неделю"></button><span class="pn-t">Рутина съедает неделю</span><div class="pn-src nb"><span class="num">02</span><h3>Рутина съедает неделю</h3><p>Команда тратит 40% времени на повторяющиеся задачи, которые можно автоматизировать: ввод данных, расписания, отчёты.</p></div></li>
+        <li class="pn" data-i="2"><i class="dm"></i><button class="pn-hit" type="button" aria-label="Медленный ответ стоит доверия"></button><span class="pn-t">Медленный ответ стоит доверия</span><div class="pn-src nb"><span class="num">03</span><h3>Медленный ответ стоит доверия</h3><p>Ответ дольше 5 минут стоит вам клиентов. Долгие согласования и поздние поставки ежедневно подтачивают доверие и выручку.</p></div></li>
+        <li class="pn" data-i="3"><i class="dm"></i><button class="pn-hit" type="button" aria-label="Вас не видно в сети"></button><span class="pn-t">Вас не видно в сети</span><div class="pn-src nb"><span class="num">04</span><h3>Вас не видно в сети</h3><p>Если клиенты не могут вас найти, они найдут конкурентов. Устаревший сайт и слабое SEO делают вас невидимым.</p></div></li>
+        <li class="pn" data-i="4"><i class="dm"></i><button class="pn-hit" type="button" aria-label="Одно и то же снова"></button><span class="pn-t">Одно и то же снова</span><div class="pn-src nb"><span class="num">05</span><h3>Одно и то же снова</h3><p>Отвечать на одни и те же вопросы, слать одни и те же письма. Повторение убивает мотивацию и крадёт время у важной работы.</p></div></li>
+        <li class="pn" data-i="5"><i class="dm"></i><button class="pn-hit" type="button" aria-label="Рост, который всё ломает"></button><span class="pn-t">Рост, который всё ломает</span><div class="pn-src nb"><span class="num">06</span><h3>Рост, который всё ломает</h3><p>Расти и не ломаться труднее всего. Каждый новый клиент приносит больше обращений, данных и сложности.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 05 WHY: pinned scene -->
+    <section class="why" data-od-id="why">
+      <div class="why-pin">
+        <div>
+          <div class="kick sec-head" style="margin:0"><div class="kick"><i class="dm"></i><span class="label gold">Почему Nexora</span></div><h2 class="h2" data-split>Время, ясность <span class="rasp">и рост</span></h2></div>
+          <div class="why-tabs" aria-hidden="true"><i class="dm on"></i><i class="dm"></i><i class="dm"></i><i class="dm"></i></div>
+        </div>
+        <div class="why-stage">
+          <i class="frame"></i><i class="frame f2"></i><i class="frame f3"></i>
+          <div class="why-slides">
+            <div class="why-slide on"><span class="n">01</span><h3>ИИ, который работает, пока вы спите</h3><p>Маркетинг идёт 24/7. Поддержка не спит. Воронка наполняется на автопилоте.</p></div>
+            <div class="why-slide"><span class="n">02</span><h3>Команда без штата</h3><p>ИИ-агенты за долю стоимости одного сотрудника. Масштаб вверх и вниз мгновенно.</p></div>
+            <div class="why-slide"><span class="n">03</span><h3>Технологии справляются сами</h3><p>Платформа берёт на себя инфраструктуру, интеграции и сложность. Вы занимаетесь клиентами.</p></div>
+            <div class="why-slide"><span class="n">04</span><h3>Решения по данным</h3><p>Аналитика в реальном времени и понятные метрики по каждому потраченному рублю.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap why-mobile" data-od-id="why-mobile">
+        <div class="sec-head"><div class="kick"><i class="dm"></i><span class="label gold">Почему Nexora</span></div><h2 class="h2">Время, ясность <span class="rasp">и рост</span></h2></div>
+        <div class="why-mobile-list">
+          <details name="why-mobile" data-od-id="why-mobile-always-on">
+            <summary><span class="n">01</span><span class="why-mobile-title">ИИ, который работает, пока вы спите</span><i class="dm" aria-hidden="true"></i></summary>
+            <div class="why-mobile-detail"><p>Маркетинг идёт 24/7. Поддержка не спит. Воронка наполняется на автопилоте.</p><div class="why-mobile-proof"><strong>40+ часов в неделю</strong><p>Автоматизируем рутину в маркетинге, операциях и поддержке.</p></div></div>
+          </details>
+          <details name="why-mobile" data-od-id="why-mobile-team">
+            <summary><span class="n">02</span><span class="why-mobile-title">Команда без штата</span><i class="dm" aria-hidden="true"></i></summary>
+            <div class="why-mobile-detail"><p>ИИ-агенты за долю стоимости одного сотрудника. Масштаб вверх и вниз мгновенно.</p><div class="why-mobile-proof"><strong>Расходы ниже на 87%</strong><p>ИИ-агенты вместо дорогих штатных ролей. Платите только за то, что используете.</p></div></div>
+          </details>
+          <details name="why-mobile" data-od-id="why-mobile-platform">
+            <summary><span class="n">03</span><span class="why-mobile-title">Технологии справляются сами</span><i class="dm" aria-hidden="true"></i></summary>
+            <div class="why-mobile-detail"><p>Платформа берёт на себя инфраструктуру, интеграции и сложность. Вы занимаетесь клиентами.</p><div class="why-mobile-proof"><strong>Enterprise за стартап-бюджет</strong><p>Та же ИИ-инфраструктура, что у компаний из Fortune 500, без платы за внедрение.</p></div></div>
+          </details>
+          <details name="why-mobile" data-od-id="why-mobile-data">
+            <summary><span class="n">04</span><span class="why-mobile-title">Решения по данным</span><i class="dm" aria-hidden="true"></i></summary>
+            <div class="why-mobile-detail"><p>Аналитика в реальном времени и понятные метрики по каждому потраченному рублю.</p><div class="why-mobile-proof"><strong>Рост без роста штата</strong><p>От 10 до 1000 клиентов без единого нового сотрудника.</p></div></div>
+          </details>
+        </div>
+      </div>
+      <div class="wrap why-roi"><div class="roi" data-stagger>
+        <article><h4>40+ часов в неделю</h4><p>Автоматизируем рутину в маркетинге, операциях и поддержке.</p></article>
+        <article><h4>Расходы ниже на 87%</h4><p>ИИ-агенты вместо дорогих штатных ролей. Платите только за то, что используете.</p></article>
+        <article><h4>Рост без роста штата</h4><p>От 10 до 1000 клиентов без единого нового сотрудника.</p></article>
+        <article><h4>Enterprise за стартап-бюджет</h4><p>Та же ИИ-инфраструктура, что у компаний из Fortune 500, без платы за внедрение.</p></article>
+      </div></div>
+    </section>
+
+    <!-- 06 LIGHT BAND: results and process share one quiet, drifting surface -->
+    <div class="lite-band" id="lite" data-od-id="lite-band">
+      <div class="lite-paper" aria-hidden="true">
+        <span class="ambient-spot ambient-spot-a"></span>
+        <span class="ambient-spot ambient-spot-b"></span>
+        <span class="ambient-spot ambient-spot-c"></span>
+      </div>
+
+      <section class="sec" id="results" data-od-id="results"><div class="wrap">
+        <div class="results-head"><div class="sec-head"><div class="kick"><i class="dm"></i><span class="label gold">Результаты</span></div><h2 class="h2" data-split>Цифры говорят <span class="rasp">сами</span></h2></div><span class="results-ornament" aria-hidden="true">
+          <svg viewBox="0 0 899 1024" focusable="false" aria-hidden="true">
+            <g transform="translate(0 719) scale(1 -1)">
+            <path class="ornament-piece" d="M267 197 222 152Q219 149 215 150Q197 155 160.5 135.5Q124 116 82 79Q77 75 73.0 79.5Q69 84 73 88Q110 130 129.5 166.5Q149 203 144 221Q143 225 145 228L191 273Q193 276 197 275Q215 269 251.5 288.5Q288 308 330 345Q335 349 339.0 345.0Q343 341 339 336Q302 294 282.5 257.5Q263 221 268 203Q269 199 267 197Z"/>
+            <path class="ornament-piece" d="M525 306H482Q478 306 476 310Q470 326 444.5 337.5Q419 349 380 353Q374 354 374.0 360.0Q374 366 380 366Q419 370 444.5 381.5Q470 393 476 409Q478 414 482 414H525Q529 414 531 410Q537 394 565.0 382.0Q593 370 632 366Q638 366 638.0 360.0Q638 354 632 353Q593 349 565.0 337.5Q537 326 531 310Q529 306 525 306Z"/>
+            <path class="ornament-piece" d="M225 306H183Q178 306 177 310Q170 326 142.0 337.5Q114 349 75 353Q69 354 69.0 360.0Q69 366 75 366Q114 370 142.0 382.0Q170 394 177 410Q178 414 183 414H225Q229 414 231 409Q238 393 263.5 381.5Q289 370 327 366Q333 366 333.0 360.0Q333 354 327 353Q289 349 263.5 337.5Q238 326 231 310Q229 306 225 306Z"/>
+            <path class="ornament-piece" d="M562 492 517 447Q514 444 510 445Q492 450 455.5 430.5Q419 411 377 374Q372 370 368.0 374.5Q364 379 368 383Q405 425 424.5 461.5Q444 498 439 516Q438 520 440 523L486 568Q488 571 492 570Q510 564 546.5 583.5Q583 603 625 640Q630 644 634.0 640.0Q638 636 634 631Q597 589 577.5 552.5Q558 516 563 498Q564 494 562 492Z"/>
+            <path class="ornament-piece" d="M403 543Q407 541 407 536V488Q407 484 403 482Q387 476 375.5 450.5Q364 425 360 386Q360 380 354.0 380.0Q348 380 347 386Q343 425 331.5 450.5Q320 476 304 482Q300 484 300 488V536Q300 541 304 543Q320 549 331.5 574.5Q343 600 347 638Q348 645 354.0 645.0Q360 645 360 638Q364 600 375.5 574.5Q387 549 403 543Z"/>
+            <path class="ornament-piece" d="M225 611H183Q178 611 177 615Q170 631 142.0 643.0Q114 655 75 658Q69 659 69.0 665.0Q69 671 75 672Q114 676 142.0 687.5Q170 699 177 715Q178 719 183 719H225Q229 719 231 715Q238 699 263.5 687.0Q289 675 327 672Q333 671 333.0 665.0Q333 659 327 658Q289 655 263.5 643.5Q238 632 231 615Q229 611 225 611Z"/>
+            <path class="ornament-piece" d="M403 237Q407 236 407 231V183Q407 178 403 177Q387 170 375.5 144.5Q364 119 360 81Q360 75 354.0 75.0Q348 75 347 81Q343 119 331.5 144.5Q320 170 304 177Q300 178 300 183V231Q300 236 304 237Q320 244 331.5 269.5Q343 295 347 333Q348 339 354.0 339.0Q360 339 360 333Q364 295 375.5 269.5Q387 244 403 237Z"/>
+            <path class="ornament-piece" d="M525 0H482Q478 0 476 5Q470 21 444.5 32.5Q419 44 380 48Q374 48 374.0 54.0Q374 60 380 61Q419 65 444.5 76.5Q470 88 476 104Q478 108 482 108H525Q529 108 531 104Q537 88 565.0 76.5Q593 65 632 61Q638 60 638.0 54.0Q638 48 632 48Q593 44 565.0 32.0Q537 20 531 4Q529 0 525 0Z"/>
+            <path class="ornament-piece" d="M104 543Q108 541 108 536V488Q108 484 104 482Q87 476 75.5 450.5Q64 425 61 386Q60 380 54.0 380.0Q48 380 47 386Q44 425 32.0 450.5Q20 476 4 482Q0 484 0 488V536Q0 541 4 543Q20 549 32.0 574.5Q44 600 47 638Q48 645 54.0 645.0Q60 645 61 638Q64 600 75.5 574.5Q87 549 104 543Z"/>
+            <path class="ornament-piece" d="M703 237Q707 236 707 231V183Q707 178 703 177Q687 170 675.5 144.5Q664 119 660 81Q659 75 653.0 75.0Q647 75 647 81Q643 119 631.5 144.5Q620 170 604 177Q599 178 599 183V231Q599 236 604 237Q620 244 631.5 269.5Q643 295 647 333Q647 339 653.0 339.0Q659 339 660 333Q664 295 675.5 269.5Q687 244 703 237Z"/>
+            </g>
+          </svg>
+        </span></div></div>
+        <div class="orbit-stage">
+          <canvas id="ball-view" aria-label="Граненый шар"></canvas>
+          <ul class="orbit">
+            <li class="orb" data-i="0" tabindex="0" data-od-id="result-satisfaction"><span class="val"><b data-count="94">94</b><small>%</small></span><p>Удовлетворённость клиентов</p><span class="orb-more"><span class="orb-bar"><i></i></span><span>Столько клиентов довольны результатом. Мы строим работу вокруг эффекта, который можно измерить.</span></span></li>
+            <li class="orb" data-i="1" tabindex="0" data-od-id="result-revenue"><span class="val"><small>$</small><b data-count="42">42</b><small>K</small></span><p>Средний рост выручки</p><span class="orb-more"><span class="orb-bar"><i></i></span><span>Средний прирост выручки у клиентов: ИИ берёт на себя продажи и повторяющиеся процессы.</span></span></li>
+            <li class="orb" data-i="2" tabindex="0" data-od-id="result-companies"><span class="val"><b data-count="500">500</b><small>+</small></span><p>Преобразованных компаний</p><span class="orb-more"><span class="orb-bar"><i></i></span><span>От соло-основателей до растущих команд. Каждая получила систему под свои задачи.</span></span></li>
+            <li class="orb" data-i="3" tabindex="0" data-od-id="result-first-outcome"><span class="val"><b data-count="48">48</b><small>ч</small></span><p>До первого результата</p><span class="orb-more"><span class="orb-bar"><i></i></span><span>Первый измеримый эффект приходит в первые двое суток после старта.</span></span></li>
+          </ul>
+        </div>
+      </section>
+
+    <!-- 07 PROCESS -->
+    <section class="sec" id="process" data-od-id="process">
+      <svg class="geo" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="rot">
+        <g class="g1"><circle class="ln" cx="800" cy="450" r="260"/></g>
+        <g class="g2"><circle class="ln" cx="670" cy="450" r="260"/><circle class="ln" cx="930" cy="450" r="260"/><line class="ln" x1="800" y1="130" x2="800" y2="770"/></g>
+        <g class="g3"><polygon class="ln" points="800,50 1200,450 800,850 400,450"/><polygon class="ln" points="800,190 1060,450 800,710 540,450"/><line class="ln" x1="400" y1="450" x2="1200" y2="450"/></g>
+        <g class="g4"><circle class="ln" cx="800" cy="450" r="430"/><line class="ln" x1="496" y1="146" x2="1104" y2="754"/><line class="ln" x1="1104" y1="146" x2="496" y2="754"/>
+          <circle class="dot" cx="800" cy="190" r="5"/><circle class="dot" cx="800" cy="710" r="5"/><circle class="dot" cx="540" cy="450" r="5"/><circle class="dot" cx="1060" cy="450" r="5"/><circle class="dot" cx="800" cy="50" r="5"/><circle class="dot" cx="800" cy="850" r="5"/><circle class="dot" cx="400" cy="450" r="5"/><circle class="dot" cx="1200" cy="450" r="5"/></g></g></svg>
+      <div class="wrap">
+      <div class="sec-head"><div class="kick"><i class="dm"></i><span class="label gold">Процесс</span></div><h2 class="h2" data-split>Путь к <span class="rasp">результату</span></h2><p class="lead" data-reveal>Мы идём рядом с вами от исследования до масштабирования. Это не просто инструмент, а трансформация.</p></div>
+      <div class="steps"><div class="steps-line"></div>
+        <div class="step" data-node><i class="dm"></i><div class="nb"><span class="num">01</span><h3>Исследуем</h3><p>Погружаемся в ваш бизнес, цели и процессы, чтобы найти, где ИИ даст максимальный эффект.</p></div></div>
+        <div class="step" data-node><i class="dm"></i><div class="nb"><span class="num">02</span><h3>Проектируем</h3><p>Разрабатываем ИИ-решение под ваши задачи, стек и стадию роста.</p></div></div>
+        <div class="step" data-node><i class="dm"></i><div class="nb"><span class="num">03</span><h3>Запускаем</h3><p>ИИ-системы выходят в работу за дни, а не недели. Интеграцию и обучение берём на себя.</p></div></div>
+        <div class="step" data-node><i class="dm"></i><div class="nb"><span class="num">04</span><h3>Масштабируем</h3><p>Постоянно улучшаем и расширяем. Ваш ИИ растёт вместе с бизнесом.</p></div></div>
+      </div>
+      <div class="process-mobile-list" data-od-id="process-mobile-list">
+        <details name="process-mobile" data-od-id="process-mobile-research"><summary><span class="num">01</span><span>Исследуем</span><i class="dm" aria-hidden="true"></i></summary><div class="proc-detail"><p>Погружаемся в ваш бизнес, цели и процессы, чтобы найти, где ИИ даст максимальный эффект.</p></div></details>
+        <details name="process-mobile" data-od-id="process-mobile-design"><summary><span class="num">02</span><span>Проектируем</span><i class="dm" aria-hidden="true"></i></summary><div class="proc-detail"><p>Разрабатываем ИИ-решение под ваши задачи, стек и стадию роста.</p></div></details>
+        <details name="process-mobile" data-od-id="process-mobile-launch"><summary><span class="num">03</span><span>Запускаем</span><i class="dm" aria-hidden="true"></i></summary><div class="proc-detail"><p>ИИ-системы выходят в работу за дни, а не недели. Интеграцию и обучение берём на себя.</p></div></details>
+        <details name="process-mobile" data-od-id="process-mobile-scale"><summary><span class="num">04</span><span>Масштабируем</span><i class="dm" aria-hidden="true"></i></summary><div class="proc-detail"><p>Постоянно улучшаем и расширяем. Ваш ИИ растёт вместе с бизнесом.</p></div></details>
+      </div>
+    </div></section>
+
+    </div>
+
+    <!-- 08 CASES -->
+    <section class="sec works" id="works" data-od-id="works">
+      <div class="wrap"><div class="sec-head"><div class="kick"><i class="dm"></i><span class="label gold">Работы</span></div><h2 class="h2" data-split>Сайты, которые <span class="rasp">работают</span></h2></div></div>
+      <div class="gallery" data-od-id="works-gallery">
+        <div class="gal-track" tabindex="0" aria-label="Наши работы: прокрутка вбок" data-cursor="label" data-cursor-text="Тяни">
+        <article class="work" tabindex="0" data-od-id="work-01"><span class="work-in"><img src="assets/marketing.jpg" alt="" loading="lazy"><span class="work-shade"></span>
+          <span class="work-meta"><small class="n">01</small><h3>Проект 01</h3><p>Здесь будут название, ссылка и короткое описание сайта.</p><span class="work-cta">Смотреть →</span></span></span></article>
+        <article class="work" tabindex="0" data-od-id="work-02"><span class="work-in"><img src="assets/development.jpg" alt="" loading="lazy"><span class="work-shade"></span>
+          <span class="work-meta"><small class="n">02</small><h3>Проект 02</h3><p>Здесь будут название, ссылка и короткое описание сайта.</p><span class="work-cta">Смотреть →</span></span></span></article>
+        <article class="work" tabindex="0" data-od-id="work-03"><span class="work-in"><img src="assets/automation.jpg" alt="" loading="lazy"><span class="work-shade"></span>
+          <span class="work-meta"><small class="n">03</small><h3>Проект 03</h3><p>Здесь будут название, ссылка и короткое описание сайта.</p><span class="work-cta">Смотреть →</span></span></span></article>
+        <article class="work" tabindex="0" data-od-id="work-04"><span class="work-in"><img src="assets/backend.jpg" alt="" loading="lazy"><span class="work-shade"></span>
+          <span class="work-meta"><small class="n">04</small><h3>Проект 04</h3><p>Здесь будут название, ссылка и короткое описание сайта.</p><span class="work-cta">Смотреть →</span></span></span></article>
+        <article class="work" tabindex="0" data-od-id="work-05"><span class="work-in"><img src="assets/workforce.jpg" alt="" loading="lazy"><span class="work-shade"></span>
+          <span class="work-meta"><small class="n">05</small><h3>Проект 05</h3><p>Здесь будут название, ссылка и короткое описание сайта.</p><span class="work-cta">Смотреть →</span></span></span></article>
+        <article class="work" tabindex="0" data-od-id="work-06"><span class="work-in"><img src="assets/hero-bg.jpg" alt="" loading="lazy"><span class="work-shade"></span>
+          <span class="work-meta"><small class="n">06</small><h3>Проект 06</h3><p>Здесь будут название, ссылка и короткое описание сайта.</p><span class="work-cta">Смотреть →</span></span></span></article>
+        </div>
+        <div class="gal-ctl"><button class="gal-btn" type="button" data-dir="-1" aria-label="Назад">←</button><i class="gal-bar" aria-hidden="true"><i></i></i><button class="gal-btn" type="button" data-dir="1" aria-label="Вперёд">→</button></div>
+      </div>
+    </section>
+
+    <!-- 10 FAQ -->
+    <section class="sec" id="faq" data-od-id="faq"><div class="wrap">
+      <div class="sec-head"><div class="kick"><i class="dm"></i><span class="label gold">FAQ</span></div><h2 class="h2" data-split>Вопросы <span class="rasp">и ответы</span></h2></div>
+      <div class="faq"></div>
+    </div></section>
+
+    <!-- 11 CTA -->
+    <section class="contact" id="contact" data-od-id="contact">
+      <h2 class="contact-title" data-glitch aria-label="Contact">CONTACT</h2>
+      <a href="contact.html" class="contact-btn mono" data-magnetic="0.5" data-cursor="link" data-od-id="contact-write-us"><span>Write us</span></a>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/fflate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+  <script src="hero3d.js"></script>
+  <script src="galaxy.js"></script>
+  <script src="ball.js"></script>
+  <script src="site.js"></script>
+</body>
+</html>
