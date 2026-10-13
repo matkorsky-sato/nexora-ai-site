@@ -179,3 +179,10 @@ html{scroll-padding-top:calc(var(--service-header-height) + 24px)}
  .cta-art{max-width:300px}
 }
 @media(prefers-reduced-motion:reduce){.cta-art .contact-orbit{animation:none}.cta-art .cta-signal{stroke-dasharray:none}}
+/* A readable route, independent of the demonstration controls. */
+.journey-brief { margin-block: var(--s5); padding-block: var(--s4); border-block: 1px solid var(--line); }
+.journey-brief ol { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s3); padding: 0; margin-block: var(--s3); list-style: none; }
+.journey-brief li { display: flex; align-items: center; gap: var(--s2); font-size: 16px; color: inherit; }
+.journey-brief li:not(:last-child)::after { content: '→'; color: var(--gold); }
+.journey-brief > p:last-child { max-width: 70ch; font-size: 16px; }
+@media (max-width: 767px) { .journey-brief ol { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--s2); } .journey-brief li:not(:last-child)::after { content: '↓'; } }

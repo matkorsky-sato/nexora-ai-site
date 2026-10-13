@@ -1,4 +1,4 @@
-﻿/* =====================================================================
+/* =====================================================================
    NEXORA v5 — "Plum ink". Dark plum ground, bone text, raspberry nerve, gold hairlines.
    Halo Grotesk (display + quotes) · Segmented (result digits) · TS Crude (single ornament) · Onest (text + small headings) · Monowire (wordmark).
    tokens → base → type → parts → chrome → sections → responsive
@@ -817,3 +817,69 @@ body[data-page="home"] .nx-scroll-reveal.nx-scroll-visible{opacity:1;translate:0
 @media(hover:hover){.nx-contact-close:hover{border-color:var(--contact-accent)}.nx-contact-send:hover{background:var(--contact-accent);border-color:var(--contact-accent)}.nx-contact-copy:hover{color:#ff7aa8}}
 @media(max-width:767px){.nx-contact-dialog{padding:24px}.nx-contact-actions{align-items:stretch}.nx-contact-send{width:100%}.nx-contact-copy{margin-inline:auto}.nx-contact-top{margin-bottom:16px}}
 @media(prefers-reduced-motion:reduce){.nx-contact-dialog::backdrop{transition:none}}
+/* Brief alignment: decorative darkness never changes text contrast. */
+.hero { --hero-darken: 0; }
+.hero::before { filter: brightness(calc(1 - var(--hero-darken) * .72)); }
+.hero-cta .link { display: inline-flex; }
+.lite-band { --fade: clamp(96px, 12vw, 192px); }
+.lite-paper { background: #f7f1f4; }
+.lite-paper::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: var(--fade); pointer-events: none; background: linear-gradient(180deg, rgba(13,7,16,0), rgba(13,7,16,.16) 24%, rgba(13,7,16,.64) 64%, #0d0710); }
+.lite-band .geo { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent); }
+#process { padding-bottom: calc(var(--sec) + var(--fade)); }
+@media (prefers-reduced-motion: reduce) { .hero::before { filter: none; } }
+/* Measurement labels replace unsupported result counters. */
+#results .orb .val { display: block; font-family: var(--f-subhead); font-size: clamp(24px, 2.4vw, 40px); line-height: 1.2; letter-spacing: 0; }
+#results .orb > p { font-size: 16px; line-height: 1.5; max-width: 18em; }
+#results .measurement-note { max-width: 70ch; margin-top: 24px; font-size: 16px; line-height: 1.6; color: var(--text); }
+@media (max-width: 599px) { #results .orb .val { font-size: 24px; } #results .orbit { gap: 32px 24px; } }
+/* Brief part two: visible paths, readable steps and honest own-project portfolio. */
+.dmd-direct{display:none}
+.field.live .dmd-direct{display:flex;align-items:center;gap:8px;position:absolute;left:72px;top:40px;min-height:44px;white-space:nowrap;color:var(--gold);font:500 14px/1.4 var(--f-body);text-decoration:none;border-bottom:1px solid var(--gold-line)}
+.field.live .dmd.flip .dmd-direct{left:auto;right:72px}
+.field.live .dmd.label-outward .dmd-direct{left:0;right:auto;top:56px}
+.field.live .dmd.open .dmd-direct{visibility:hidden;pointer-events:none}
+.dmd-panel .link,.dmd-direct,.work-cta{cursor:pointer}
+.dmd-panel .link:focus-visible,.dmd-direct:focus-visible,.work-cta:focus-visible{outline:2px solid var(--rasp);outline-offset:4px}
+.dmd-panel p{font-size:16px;line-height:1.6}
+.work-real,.work-invitation{height:auto;min-height:440px;align-self:stretch;transition:filter .24s var(--ease);color:var(--bone)}
+.work-real .work-in,.work-invitation .work-in{position:relative;inset:auto;display:flex;flex-direction:column;height:100%;padding:1px;overflow:visible}
+.work .work-photo{position:static;inset:auto;display:block;width:100%;height:auto;transform:none;filter:none}
+.work-real .work-meta,.work-invitation .work-meta{position:static;display:flex;flex-direction:column;gap:16px;flex:1;padding:32px 14% 40px;text-align:left}
+.work-real .work-meta p,.work-invitation .work-meta p{max-height:none;opacity:1;overflow:visible;font-size:16px;line-height:1.6}
+.work-real .work-cta,.work-invitation .work-cta{display:flex;align-items:center;gap:8px;min-height:44px;max-height:none;opacity:1;overflow:visible;margin-top:auto;color:var(--bone);font:500 16px/1.4 var(--f-body);letter-spacing:0;text-transform:none;text-decoration:none;border-bottom:1px solid var(--gold)}
+.work-real .n,.work-invitation .n{font:500 12px/1.5 var(--f-body);letter-spacing:.04em}
+.work-real.on,.work-real:focus-visible,.work-invitation.on,.work-invitation:focus-visible{flex-basis:calc((100% - 24px)/3)}
+.gal-track.hovering .work-real:not(.on),.gal-track.hovering .work-invitation:not(.on){filter:none}
+.work-invite-art{display:grid;place-items:center;min-height:200px;padding:32px 14%;color:var(--gold)}
+.work-invite-art>span{display:block;font:400 clamp(48px,6vw,80px)/1 var(--f-brand);color:var(--bone)}
+.work-invite-art svg{display:block;width:100%;height:auto;max-width:240px}
+.contact-explanation{position:relative;text-align:center;max-width:720px;margin:24px auto 32px}
+.contact-explanation h3{font:500 clamp(24px,3vw,40px)/1.2 var(--f-subhead);margin-bottom:16px}
+.contact-explanation p{font-size:16px;line-height:1.6;color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(hover:hover){.dmd-direct:hover,.work-cta:hover{color:var(--rasp-2);border-color:var(--rasp)}}
+@media(max-width:999px){
+ .process-mobile-list{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;border-top:0}
+ .process-mobile-card{display:grid;grid-template-columns:minmax(44px,max-content) minmax(0,1fr);gap:16px 24px;padding:24px 0;border-top:1px solid var(--line);min-width:0}
+ .process-mobile-card>.num{display:block;font:400 24px/1.2 var(--f-brand);color:var(--gold)}
+ .process-mobile-card h3{font:500 clamp(20px,5vw,28px)/1.3 var(--f-subhead);color:var(--bone);margin:0}
+ .process-mobile-card p{grid-column:1/-1;font-size:16px;line-height:1.65;color:var(--text);max-width:60ch;margin:0}
+ .work-real,.work-invitation,.work-real.on,.work-real:focus-visible,.work-invitation.on,.work-invitation:focus-visible{flex-basis:86%;min-height:0}
+ .work-real .work-meta,.work-invitation .work-meta{padding:24px 14% 32px}
+ .work h3{font-size:24px;line-height:1.2}
+ .contact-explanation{padding-inline:var(--pad)}
+}
+@media(prefers-reduced-motion:reduce){.process-mobile-card{opacity:1!important;transform:none!important}.work{transition:none}}
+/* Mobile Why/process: bounded SVG paint, two thin signals, visibility-driven motion. */
+@media(max-width:999px){
+ .why>.geo,#process>.geo{height:720px;max-height:100%;width:100%;opacity:.24;filter:none;-webkit-mask-image:none;mask-image:none;contain:paint}
+ .why>.geo .geo-pulse,#process>.geo .geo-pulse{animation:none;filter:none;stroke:#e52349;stroke-width:1.4;stroke-opacity:.18;stroke-dasharray:none}
+ .why>.geo.nx-geo-active .pulse-1,.why>.geo.nx-geo-active .pulse-5,#process>.geo.nx-geo-active .pulse-1,#process>.geo.nx-geo-active .pulse-5{stroke-opacity:.7;stroke-dasharray:.055 .945;animation:geo-travel 9s linear infinite}
+ .why-mobile-detail{height:auto!important}
+ .nx-mobile-enter{opacity:0;transform:translateY(16px);transition:opacity 320ms ease-out,transform 320ms ease-out}
+ .nx-mobile-enter.nx-mobile-entered{opacity:1;transform:none}
+}
+@media(max-width:999px) and (prefers-reduced-motion:reduce){
+ .why>.geo .geo-pulse,#process>.geo .geo-pulse{animation:none!important;stroke-dasharray:none!important}
+ .nx-mobile-enter{opacity:1;transform:none;transition:none}
+}

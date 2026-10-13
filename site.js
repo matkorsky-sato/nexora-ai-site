@@ -1,4 +1,4 @@
-﻿/* NEXORA v5 — interaction layer. body[data-page] = home | service | contact.
+/* NEXORA v5 — interaction layer. body[data-page] = home | service | contact.
    0 chrome · 1 sound · 2 glitch · 3 scroll/menu · 4 cursor · 5 reveals (words, diamond-nodes) · 6 header · 7 pages.
    Everything degrades: no GSAP → static, fully readable page; no motion → constellation becomes a plain list. */
 (() => {
@@ -43,7 +43,7 @@
     [...new Set(wordmarks.map(el => el.parentElement))].forEach(el => wordmarkObserver.observe(el));
   }
   const gsapOK = !!(window.gsap && window.ScrollTrigger);
-  const currentServices = [{"slug":"sales-automation","name":"Автоматизация набора","tag":"Сайт, бот, запись и учёт заявок для образовательных центров."},{"slug":"websites","name":"Сайты и лендинги","tag":"Понятное предложение, ответы на вопросы и путь к заявке."},{"slug":"chatbots","name":"Чат-боты","tag":"Типовые ответы, сбор данных и передача обращения человеку."},{"slug":"crm-integration","name":"Интеграция с CRM","tag":"Заявки, источники и статусы в согласованной системе учёта."},{"slug":"process-automation","name":"Автоматизация операций","tag":"Связанные шаги, уведомления и контроль исключений."},{"slug":"analytics","name":"Аналитика заявок и оплат","tag":"Источники обращений и движение до записи или оплаты."},{"slug":"marketing-automation","name":"Маркетинговые коммуникации","tag":"Ответы и напоминания по событиям, с правилами остановки."}];
+  const currentServices = [{"slug":"sales-automation","name":"Комплекс для обучения","tag":"Сайт + чат-бот + автоматизация заявок для образовательных центров."},{"slug":"websites","name":"Сайты и лендинги","tag":"Понятное предложение, ответы на вопросы и путь к заявке."},{"slug":"chatbots","name":"Чат-боты","tag":"Типовые ответы, сбор данных и передача обращения человеку."},{"slug":"crm-integration","name":"Интеграция с CRM","tag":"Заявки, источники и статусы в согласованной системе учёта."},{"slug":"process-automation","name":"Автоматизация операций","tag":"Связанные шаги, уведомления и контроль исключений."},{"slug":"analytics","name":"Аналитика заявок и оплат","tag":"Источники обращений и движение до записи или оплаты."},{"slug":"marketing-automation","name":"Маркетинговые коммуникации","tag":"Ответы и напоминания по событиям, с правилами остановки."}];
   const legacyRoutes={marketing:'marketing-automation',workforce:'sales-automation',development:'websites',backend:'crm-integration',automation:'process-automation',assistants:'chatbots'};
   const svcLink = s => 'services/'+(legacyRoutes[s.slug]||s.slug)+'.html';
 
@@ -65,7 +65,7 @@
   const fm = $('#footer-mount');
   if (fm) fm.outerHTML = `
     <footer class="footer" data-od-id="footer"><div class="wrap"><div class="footer-grid">
-      <div><a class="logo" href="index.html#top">NEXORA</a><p style="margin-top:18px">Интеллект, который умножает бизнес. Помогаем продавать умнее, строить быстрее и расти без перегрузки.</p><span class="footer-molecule footer-molecule-imprint" aria-hidden="true"></span></div>
+      <div><a class="logo" href="index.html#top">NEXORA</a><p style="margin-top:18px">Создаём сайты, чат-ботов и автоматизируем рутинные процессы. Связываем заявки, продажи и учёт под ваш бизнес.</p><span class="footer-molecule footer-molecule-imprint" aria-hidden="true"></span></div>
       <div><h4>Услуги</h4><ul>${currentServices.map(s => `<li><a href="${svcLink(s)}">${s.name}</a></li>`).join('')}</ul></div>
       <div><h4>Компания</h4><ul><li><a href="index.html#contact">Контакты</a></li><li><a href="mailto:hello@nexora.ai">hello@nexora.ai</a></li></ul></div></div></div>
       <div class="wrap"><div class="footer-base"><span>© ${new Date().getFullYear()} Nexora AI. Все права защищены.</span><span>Работаем удалённо по всему миру</span></div></div></footer>`;
@@ -239,7 +239,7 @@
         const h = NX.hold; hero.style.setProperty('--hold', h.toFixed(3)); document.documentElement.classList.toggle('charged', h > .5); 
         if (NX.holding && performance.now() - hb > 380) { hb = performance.now(); burst(brand, 300, 1 + h); }
       });
-      ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: s => (NX.scroll = s.progress) });
+      ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: s => { NX.scroll = s.progress; hero.style.setProperty('--hero-darken', reduce ? 0 : s.progress); } });
       let cool = 0; ScrollTrigger.create({ start: 0, end: 'max', onUpdate: s => { if (Math.abs(s.getVelocity()) > 2800 && performance.now() - cool > 1500) { cool = performance.now(); burst(brand, 260, 1.2); } } });
 
       initReveals();
@@ -297,20 +297,17 @@
           orb.addEventListener('pointerenter', () => active(true)); orb.addEventListener('pointerleave', () => active(false));
           orb.addEventListener('focus', () => active(true)); orb.addEventListener('blur', () => active(false));
         });
-        /* desktop diagram: whichever sphere is in focus (pointer over it, or over its number) lights its card, dims the rest and replays the count */
-        addEventListener('nx:focus', e => { const f = e.detail; stage.classList.toggle('has-focus', f >= 0); orbs.forEach((o, k) => o.classList.toggle('focus', k === f));
-          if (f >= 0 && !reduce) { const o = orbs[f], b = $('[data-count]', o), end = Number(b.dataset.count), st = { v: 0 }; gsap.killTweensOf(st);
-            gsap.to(st, { v: end, duration: .9, ease: 'power3.out', onUpdate: () => (b.textContent = Math.round(st.v)), onComplete: () => (b.textContent = String(end)) });
-            gsap.fromTo($('.orb-bar i', o), { scaleX: 0 }, { scaleX: 1, duration: .9, ease: 'power3.out' }); } });
-        if (!reduce) ScrollTrigger.create({ trigger: results, start: 'top 70%', once: true, onEnter: () => {
-          orbs.forEach((orb, i) => {
-            const number = $('[data-count]', orb), end = Number(number.dataset.count), state = { value: 0 };
-            gsap.to(state, { value: end, duration: 1.45, delay: i * .12, ease: 'power3.out',
-              onUpdate: () => (number.textContent = Math.round(state.value)),
-              onComplete: () => { number.textContent = String(end); NXBall.pulse(i); } });
-          });
-        } });
-
+        /* Measurement directions respond to focus without invented counters. */
+        addEventListener('nx:focus', e => {
+          const f = e.detail;
+          stage.classList.toggle('has-focus', f >= 0);
+          orbs.forEach((orb, i) => orb.classList.toggle('focus', i === f));
+          if (f >= 0 && f < orbs.length && !reduce) {
+            gsap.fromTo($('.orb-bar i', orbs[f]), { scaleX: 0 }, { scaleX: 1, duration: .3, ease: 'power3.out' });
+          }
+        });
+        if (!reduce) ScrollTrigger.create({ trigger: results, start: 'top 70%', once: true,
+          onEnter: () => orbs.forEach((orb, i) => gsap.delayedCall(i * .04, () => NXBall.pulse(i))) });
         ScrollTrigger.matchMedia({ '(min-width: 1000px)': () => {
           if (reduce) return;
           const groups = $$('.geo .rot > g', process);
@@ -367,21 +364,38 @@
         const edges = [[0, 2], [0, 1], [1, 3], [2, 3], [2, 4], [3, 5], [4, 5], [5, 6], [3, 6]];
         const setOpen = (it, on, pin) => { if (on && !it.open) { it.lockX = it.x; it.lockY = it.y; it.vx = it.vy = 0; } it.open = on; it.el.classList.toggle('open', on); $('.dmd-node', it.el).setAttribute('aria-expanded', String(on));  if (!on) it.pinned = false; if (pin !== undefined) it.pinned = pin; it.el.classList.toggle('held', it.pinned); };
         const closeAll = except => items.forEach(o => { if (o !== except) setOpen(o, false); });
-        const live = !reduce && innerWidth >= 720;
-        matchMedia('(min-width: 720px)').addEventListener('change', () => { try { sessionStorage.setItem('nxNoIntro', '1'); } catch (_) {} location.reload(); });
+        const desktop = matchMedia('(min-width: 720px)');
+        const live = !reduce;
         if (live) {
-          box.classList.add('live');
+          box.classList.toggle('live', desktop.matches);
           items.forEach(it => it.el.classList.toggle('flip', it.fx > .5));
           const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'field-lines'); svg.setAttribute('aria-hidden', 'true'); box.prepend(svg);
           const lines = edges.map(([a, b]) => { const l = document.createElementNS('http://www.w3.org/2000/svg', 'line'); svg.appendChild(l); return { l, a: items[a], b: items[b] }; });
           let W = 0, H = 0; const measure = () => { const r = box.getBoundingClientRect(); W = r.width; H = r.height; items.forEach(it => { if (!it.x && !it.y) { it.x = it.fx * (W - 64); it.y = it.fy * (H - 44); } }); };
           measure(); addEventListener('resize', measure);
           const pm = { x: -999, y: -999, on: false };
+          const syncLayout = () => {
+            box.classList.toggle('live', desktop.matches);
+            svg.style.display = desktop.matches ? '' : 'none';
+            pm.on = false;
+            measure();
+            items.forEach(it => {
+              it.x = it.fx * Math.max(0, W - 64); it.y = it.fy * Math.max(0, H - 44);
+              it.vx = it.vy = 0;
+              it.el.style.transform = desktop.matches ? `translate3d(${it.x}px,${it.y}px,0)` : '';
+              setOpen(it, !desktop.matches, false);
+            });
+          };
+          syncLayout();
+          desktop.addEventListener('change', () => {
+            syncLayout();
+            requestAnimationFrame(() => { if (lenis) lenis.resize(); ScrollTrigger.refresh(); });
+          });
           box.addEventListener('pointermove', e => { const r = box.getBoundingClientRect(); pm.x = e.clientX - r.left; pm.y = e.clientY - r.top; pm.on = e.pointerType === 'mouse'; });
           box.addEventListener('pointerleave', () => (pm.on = false));
           let running = false; ScrollTrigger.create({ trigger: box, start: 'top bottom', end: 'bottom top', onToggle: s => (running = s.isActive) });
           gsap.ticker.add(() => {
-            if (!running) return; const t = performance.now();
+            if (!running || !desktop.matches) return; const t = performance.now();
             items.forEach(it => {
               if (it.open) {
                 it.x = it.lockX; it.y = it.lockY; it.vx = it.vy = 0;
@@ -400,12 +414,13 @@
             lines.forEach(({ l, a, b }) => { l.setAttribute('x1', a.x + 32); l.setAttribute('y1', a.y + 32); l.setAttribute('x2', b.x + 32); l.setAttribute('y2', b.y + 32); l.classList.toggle('hot', a.open || b.open); });
           });
           items.forEach(it => { let tm;
-            it.el.addEventListener('pointerenter', e => { if (e.pointerType !== 'mouse') return; clearTimeout(tm); closeAll(it); setOpen(it, true); });
-            it.el.addEventListener('pointerleave', e => { if (e.pointerType !== 'mouse' || it.pinned) return; tm = setTimeout(() => setOpen(it, false), 260); });
-            $('.dmd-node', it.el).addEventListener('click', () => { if (it.pinned) setOpen(it, false); else { closeAll(it); setOpen(it, true, true); } });
+            it.el.addEventListener('pointerenter', e => { if (!desktop.matches || e.pointerType !== 'mouse') return; clearTimeout(tm); closeAll(it); setOpen(it, true); });
+            it.el.addEventListener('focusin', () => { if (!desktop.matches) return; clearTimeout(tm); closeAll(it); setOpen(it, true); });
+            it.el.addEventListener('pointerleave', e => { if (!desktop.matches || e.pointerType !== 'mouse' || it.pinned || it.el.contains(document.activeElement)) return; tm = setTimeout(() => { if (desktop.matches) setOpen(it, false); }, 260); });
+            $('.dmd-node', it.el).addEventListener('click', () => { if (!desktop.matches) return; if (it.pinned) setOpen(it, false); else { closeAll(it); setOpen(it, true, true); } });
           });
-          addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
-          document.addEventListener('pointerdown', e => { if (!e.target.closest('.dmd')) closeAll(); });
+          addEventListener('keydown', e => { if (desktop.matches && e.key === 'Escape') closeAll(); });
+          document.addEventListener('pointerdown', e => { if (desktop.matches && !e.target.closest('.dmd')) closeAll(); });
         } else items.forEach(it => setOpen(it, true));
       })();
 
@@ -430,13 +445,13 @@
         if (!live) { items.forEach(revealNode); return; }
         sec.classList.add('live');
         const ICONS = ['M3 5h18l-7 8v6l-4-2v-4L3 5z', 'M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9', 'M4 5h16v11H9l-5 4V5zM8 10h.01M12 10h.01M16 10h.01', 'M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6zM12 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5M4 4l16 16', 'M17 2l4 4-4 4M3 11V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 01-3 3H3', 'M3 20h18M6 16l4-5 3 3 5-8M15 6h3v3'];
-        const SOLVE = ['marketing', 'automation', 'workforce', 'marketing', 'automation', 'backend'];
+        const SOLVE = ['crm-integration', 'chatbots', 'process-automation', 'sales-automation', 'analytics'];
         const pIc = document.createElement('span'), pFix = document.createElement('a'); pIc.className = 'pains-ic'; pIc.setAttribute('aria-hidden', 'true'); pFix.className = 'pains-fix'; panel.prepend(pIc); panel.append(pFix);
         let W = 0, H = 0, Cx = 0, Cy = 0, Rr = 0, panelR = 0;
         const STEP = 26, N = items.length; let posT = 0, pos = 0, cur = -1, st;
         const measure = () => { const r = stage.getBoundingClientRect(); W = r.width; H = r.height; if (mob()) { Cx = W / 2; return; } Cx = W * .35 + W * .65 / 2; Cy = H * .53; Rr = Math.min(W * .27, H * .40); const left = Cx - Rr; panel.style.width = Math.max(240, Math.min(440, left - panel.offsetLeft - 90)) + 'px'; };
         measure(); addEventListener('resize', measure);
-        const fill = i => { const src = items[i]; pIc.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[i % 6]}"/></svg>`; const sv = D.services.find(s => s.slug === SOLVE[i % 6]); if (sv) { pFix.href = svcLink(sv); pFix.innerHTML = `Как решаем: <b>${sv.name}</b> →`; } pnum.textContent = $('.num', src).textContent; ph3.textContent = $('h3', src).textContent; pp.textContent = $('p', src).textContent;
+        const fill = i => { const src = items[i]; pIc.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[i % 6]}"/></svg>`; const sv = currentServices.find(s => s.slug === SOLVE[i % SOLVE.length]); if (sv) { pFix.href = svcLink(sv); pFix.innerHTML = `Как решаем: <b>${sv.name}</b> →`; } pnum.textContent = $('.num', src).textContent; ph3.textContent = $('h3', src).textContent; pp.textContent = $('p', src).textContent;
           const words = [ph3, pp].flatMap(el => { el.innerHTML = el.textContent.split(/\s+/).map(w => `<span class="w"><span class="wi">${w}</span></span>`).join(' '); return $$('.wi', el); });
           gsap.fromTo(panel, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: .8, ease: 'power3.out' });
           gsap.fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: .8, ease: 'power4.out', stagger: .012 }); gsap.fromTo(pnum, { opacity: 0 }, { opacity: 1, duration: .6 });  NXGalaxy.boost = 1; setTimeout(() => (NXGalaxy.boost = 0), 500); };
@@ -488,6 +503,21 @@
           onComplete: () => { el.open = false; gsap.set(det, { clearProps: 'height' }); if (done) done(); } });
       };
       const bindAccordion = (items, bodySel) => {
+        if (matchMedia('(max-width: 999px)').matches) {
+          // Native disclosure: no frame-by-frame height writes or scroll stop/start.
+          items.forEach(item => item.addEventListener('toggle', () => {
+            const detail = item.querySelector(bodySel);
+            if (item.open && detail && !reduce && detail.animate) {
+              detail.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 240, easing: 'cubic-bezier(.2,.7,.2,1)' });
+            }
+            clearTimeout(disclosureTimer);
+            disclosureTimer = setTimeout(() => {
+              if (lenis && lenis.resize) lenis.resize();
+              ScrollTrigger.refresh();
+            }, 280);
+          }));
+          return;
+        }
         items.forEach(item => {
           item.querySelector('summary').addEventListener('click', e => {
             e.preventDefault();
@@ -522,13 +552,28 @@
             .to(lines, { strokeDashoffset: 0, duration: .5, stagger: .08 }, 0)
             .to(nodes, { opacity: .9, duration: .15, stagger: .1 }, .35);
         });
-        const parch = $$('#process .sec-head, .process-mobile-list details, .why-pin .sec-head, .why-mobile .sec-head, .why-mobile details');
-        parch.forEach(el => {
-          gsap.set(el, { opacity: 0, y: 30 });
-          ScrollTrigger.create({ trigger: el, start: 'top 92%', toggleActions: 'play none none reverse',
-            onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: .5, ease: 'power3.out', overwrite: 'auto' }),
-            onLeaveBack: () => gsap.to(el, { opacity: 0, y: 30, duration: .35, ease: 'power2.in', overwrite: 'auto' }) });
-        });
+        const parch = $$('#process .sec-head, .process-mobile-card, .why-mobile .sec-head, .why-mobile details');
+        // Observe visibility without a ScrollTrigger per mobile text block.
+        if ('IntersectionObserver' in window) {
+          const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('nx-mobile-entered');
+              revealObserver.unobserve(entry.target);
+            });
+          }, { rootMargin: '0px 0px -4% 0px', threshold: 0 });
+          parch.forEach(el => { el.classList.add('nx-mobile-enter'); revealObserver.observe(el); });
+        }
+        if ('IntersectionObserver' in window) {
+          const geometryObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => entry.target.classList.toggle('nx-geo-active', entry.isIntersecting && !document.hidden));
+          });
+          geometryObserver.observe(processGeo);
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden) processGeo.classList.remove('nx-geo-active');
+            else { geometryObserver.unobserve(processGeo); geometryObserver.observe(processGeo); }
+          });
+        } else processGeo.classList.add('nx-geo-active');
       } });
 
       /* process line */
